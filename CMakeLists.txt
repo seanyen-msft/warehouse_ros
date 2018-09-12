@@ -29,9 +29,13 @@ set(warehouse_srcs
 add_library(warehouse_ros SHARED ${warehouse_srcs})
 
 target_link_libraries(warehouse_ros ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+set_target_properties(warehouse_ros PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 add_executable(warehouse_test_dbloader src/test_dbloader.cpp)
 target_link_libraries(warehouse_test_dbloader warehouse_ros ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
-install(TARGETS warehouse_ros LIBRARY DESTINATION lib)
+install(TARGETS warehouse_ros
+        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
